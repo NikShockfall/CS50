@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+
+        <script>
+
+            // TODO: Add code to check answers to questions
+            document.addEventListener('DOMContentLoaded', function() {
+
+                let correct = document.querySelector('.correct');
+                correct.addEventListener('click', function() {
+                   changeBgColor(correct, 'green');
+                   document.querySelector('#result1').innerHTML = 'Correct!'
+
+                   inc = document.querySelectorAll('.incorrect');
+                   for (let i = 0; i < incorrect.length; i++)
+                   {
+                       disable(incorrect[i]);
+                   }
+                });
+
+                let incorrect = document.querySelectorAll('.incorrect');
+                for (let i = 0; i < incorrect.length; i++)
+                {
+
+                    incorrect[i].addEventListener('click', function() {
+                    changeBgColor(incorrect[i], 'red');
+                    document.querySelector('#result1').innerHTML = 'Incorrect!';
+
+                    disable(document.querySelector('.correct'));
+
+                    for (let j = 0; j < incorrect.length; j++)
+                    {
+                        if (i != j)
+                        {
+                            disable(incorrect[j]);
+                        }
+                    }
+                    });
+                }
+
+                document.querySelector('#submit').addEventListener('click', function() {
+                    let input = document.querySelector('input');
+                    input.readOnly = true;
+
+                    if (input.value == 'Pneumonoultramicroscopicsilicovolcanoconiosis')
+                    {
+                        changeBgColor(input, 'green');
+                        document.querySelector('#result2').innerHTML = 'Correct!';
+                    }
+                    else
+                    {
+                        changeBgColor(input, 'red');
+                        document.querySelector('#result2').innerHTML = 'Incorrect!';
+                    }
+                });
+
+            });
+
+            function disable(element)
+            {
+                element.disabled = true;
+            }
+
+            function changeBgColor(element, color)
+            {
+                element.style.backgroundColor = color;
+            }
+
+        </script>
+
+    </head>
+    <body>
+
+        <div class="jumbotron">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+
+                <!-- TODO: Add multiple choice question here -->
+                <h3>
+                    Question 1
+                </h3>
+
+                <button class="incorrect">Answer 1</button>
+                <button class="incorrect">Answer 2</button>
+                <button class="correct">Answer 3</button>
+                <button class="incorrect">Answer 4</button>
+
+                <p id="result1"></p>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+
+                <!-- TODO: Add free response question here -->
+                <h3>
+                    Question 2
+                </h3>
+                <input id="response" placeholder="Answer" type="text">
+                <button id="submit">Check Answer</button>
+
+                <p id="result2"></p>
+
+            </div>
+
+        </div>
+    </body>
+</html>

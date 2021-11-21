@@ -1,0 +1,1 @@
+SELECT name from songs WHERE artist_id IN (SELECT id from artists WHERE trim(name) = "Post Malone");

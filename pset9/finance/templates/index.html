@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <div class="section">
+        <table class=>
+            <thead>
+                <th class="text-left">Symbol</th>
+                <th class="text-left">Name</th>
+                <th class="text-right">Shares</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">TOTAL</th>
+                {% if stocks %}
+                    <th class=>Buy</th>
+                    <th class=>Sell</th>
+                {% endif %}
+            </thead>
+            <tbody>
+                {% for row in stocks %}
+                    <tr>
+                        <td class="text-left">{{  row['symbol']  }}</td>
+                        <td class="text-left">{{  row['name']  }}</td>
+                        <td class="text-right">{{  row['shares']  }}</td>
+                        <td class="text-right">{{  row['price']|usd  }}</td>
+                        <td class="text-right">{{  row['total']|usd  }}</td>
+
+                        <td>
+                            {% set budget = cash/row['price'] %}
+                            <form action="/buy" method="post">
+                                <input type="hidden" name="symbol" value={{  row['symbol']  }}>
+                                <input type="number" name="shares" placeholder="1" min="1" max={{ budget|round(method='floor') }} style="width:60px;">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/sell" method="post">
+                                <input type="hidden" name="symbol" value={{  row['symbol']  }}>
+                                <input type="number" name="shares" placeholder="1" min="1" max={{  row['shares']  }} style="width:60px;">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="text-right" colspan=4><b>Cash</b></td>
+                    <td class="text-right">
+                        {{  cash|usd  }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right" colspan=4><b>TOTAL</b></td>
+                    <td class="text-right"><b>{{  net|usd  }}</b></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <div class="section">
+        <table class=>
+            <thead>
+                <th class="text-left">Symbol</th>
+                <th class="text-right">Shares</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Transacted</th>
+            </thead>
+            <tbody>
+                {% for row in stocks %}
+                    <tr>
+                        <td class="text-left">{{  row['symbol']  }}</td>
+                        <td class="text-right">{{  row['shares']  }}</td>
+                        <td class="text-right">${{  row['price']  }}</td>
+                        <td class="text-right">{{  row['date']  }} {{  row['time']  }}</td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
