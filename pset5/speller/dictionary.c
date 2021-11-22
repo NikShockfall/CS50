@@ -42,6 +42,7 @@ bool check(const char *word)
     {
         return false;
     }
+
     else{
         node *tmp = table[index];
         while(tmp != NULL)
@@ -67,7 +68,7 @@ unsigned int hash(const char *word)
 
     for (int i = 0; i < len; i++)
     {
-        hashnum += len + word[i]*i;
+        hashnum += len + (word[i]-30)*i;
     }
 
     return hashnum % N;
@@ -105,14 +106,8 @@ bool load(const char *dictionary)
         }
         else
         {
-            node *temp = table[index];
-
-            while (temp->next != NULL)
-            {
-                temp = temp->next;
-            }
-
-            temp->next = n;
+            n->next = table[index];
+            table[index] = n;
         }
         loaded++;
     }
@@ -130,32 +125,23 @@ unsigned int size(void)
 // Unloads dictionary from memory, returning true if successful, else false
 bool unload(void)
 {
-    int unloaded = 0;
     for (int i = 0; i < N; i++)
     {
-        if (table[i])
+        if (table[i] == NULL && i < N - 1)
         {
-            node *temp = table[i];
-
-            while (temp->next != NULL)
-            {
-                temp = temp->next;
-                free(table[i]);
-                unloaded++;
-                table[i] = temp;
-            }
-
-            free(table[i]);
-            unloaded++;
-
-
+            i++;
         }
+
+        node *temp = table[i];
+
+        while (temp != NULL)
+        {
+            table[i] = temp->next;
+            free(temp);
+            temp = table[i];
+        }
+
     }
 
-    if (unloaded == loaded)
-    {
-        return true;
-    }
-
-    return false;
+    return true;
 }
